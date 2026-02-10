@@ -1,0 +1,245 @@
+@import "tailwindcss";
+
+/* Custom theme configuration for Augmentum */
+@theme {
+  /* Primary brand colors */
+  --color-navy-50: #f0f4f8;
+  --color-navy-100: #d9e2ec;
+  --color-navy-200: #bcccdc;
+  --color-navy-300: #9fb3c8;
+  --color-navy-400: #829ab1;
+  --color-navy-500: #627d98;
+  --color-navy-600: #486581;
+  --color-navy-700: #334e68;
+  --color-navy-800: #243b53;
+  --color-navy-900: #1a3a5c;
+  --color-navy-950: #102a43;
+
+  --color-teal-50: #e6ffff;
+  --color-teal-100: #b3fffc;
+  --color-teal-200: #80fff9;
+  --color-teal-300: #4dfff6;
+  --color-teal-400: #1afff3;
+  --color-teal-500: #01aca8;
+  --color-teal-600: #018a87;
+  --color-teal-700: #016866;
+  --color-teal-800: #004645;
+  --color-teal-900: #002423;
+
+  /* Typography */
+  --font-serif: var(--font-inter), "Inter", system-ui, sans-serif;
+  --font-sans: var(--font-inter), "Inter", system-ui, sans-serif;
+
+  /* Custom spacing */
+  --spacing-section-sm: 4rem;
+  --spacing-section-md: 6rem;
+  --spacing-section-lg: 8rem;
+  --spacing-section-xl: 10rem;
+
+  /* Custom shadows */
+  --shadow-premium: 0 4px 30px rgba(26, 58, 92, 0.08), 0 1px 3px rgba(26, 58, 92, 0.04);
+  --shadow-card: 0 2px 16px rgba(26, 58, 92, 0.06);
+  --shadow-hover: 0 12px 40px rgba(26, 58, 92, 0.12);
+
+  /* Custom max-widths */
+  --max-width-content-sm: 640px;
+  --max-width-content-md: 768px;
+  --max-width-content-lg: 1024px;
+  --max-width-content-xl: 1280px;
+  --max-width-content-2xl: 1440px;
+
+  /* Animations */
+  --animate-fade-in: fade-in 0.6s ease-out forwards;
+  --animate-slide-up: slide-up 0.6s ease-out forwards;
+  --animate-slide-in-left: slide-in-left 0.7s ease-out forwards;
+  --animate-slide-in-right: slide-in-right 0.7s ease-out forwards;
+  --animate-draw-line: draw-line 0.8s ease-out forwards;
+
+  @keyframes fade-in {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  @keyframes slide-up {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes slide-in-left {
+    from {
+      opacity: 0;
+      transform: translateX(-30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+
+  @keyframes slide-in-right {
+    from {
+      opacity: 0;
+      transform: translateX(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+
+  @keyframes draw-line {
+    from {
+      transform: scaleX(0);
+    }
+    to {
+      transform: scaleX(1);
+    }
+  }
+
+  @keyframes shimmer {
+    0% {
+      background-position: -200% 0;
+    }
+    100% {
+      background-position: 200% 0;
+    }
+  }
+
+  @keyframes float {
+    0%, 100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-6px);
+    }
+  }
+}
+
+/* Logo scroll animation */
+@keyframes scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-scroll {
+  animation: scroll 25s linear infinite;
+}
+
+/* Base styles */
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    font-family: var(--font-sans);
+    color: var(--color-navy-900);
+    background-color: white;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-serif);
+    font-weight: 700;
+    color: var(--color-navy-900);
+    letter-spacing: -0.01em;
+  }
+
+  /* Smooth transitions on all interactive elements */
+  a, button {
+    transition: all 0.3s ease;
+  }
+}
+
+/* Utility classes */
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  .editorial-paragraph {
+    font-size: 1.125rem;
+    line-height: 1.75;
+    color: var(--color-navy-700);
+  }
+
+  .section-padding {
+    padding-top: var(--spacing-section-md);
+    padding-bottom: var(--spacing-section-md);
+  }
+
+  @media (min-width: 1024px) {
+    .section-padding {
+      padding-top: var(--spacing-section-lg);
+      padding-bottom: var(--spacing-section-lg);
+    }
+  }
+
+  /* Premium hover lift effect */
+  .hover-lift {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  .hover-lift:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 40px rgba(26, 58, 92, 0.12);
+  }
+
+  /* Accent bar left border */
+  .accent-bar-left {
+    border-left: 4px solid var(--color-teal-500);
+    padding-left: 1.5rem;
+  }
+
+  /* Subtle dot pattern background */
+  .bg-pattern-dots {
+    background-image: radial-gradient(circle, var(--color-navy-200) 1px, transparent 1px);
+    background-size: 24px 24px;
+  }
+
+  /* Gradient text effect */
+  .text-gradient-teal {
+    background: linear-gradient(135deg, var(--color-teal-500), var(--color-teal-600));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* Gradient backgrounds */
+  .bg-gradient-navy {
+    background: linear-gradient(135deg, var(--color-navy-900) 0%, var(--color-navy-950) 100%);
+  }
+  .bg-gradient-navy-teal {
+    background: linear-gradient(135deg, var(--color-navy-900) 0%, #1a4a5c 50%, var(--color-navy-950) 100%);
+  }
+  .bg-gradient-teal {
+    background: linear-gradient(135deg, var(--color-teal-500) 0%, var(--color-teal-600) 100%);
+  }
+
+  /* Decorative line that draws in */
+  .accent-line {
+    height: 3px;
+    background: linear-gradient(90deg, var(--color-teal-500), var(--color-teal-400));
+    transform-origin: left;
+  }
+
+  /* Serif heading utility */
+  .font-heading {
+    font-family: var(--font-serif);
+    letter-spacing: -0.01em;
+  }
+}

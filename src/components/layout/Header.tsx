@@ -16,20 +16,15 @@ const pageLinks = [
   { key: "nav.contact", href: "/contact" },
 ];
 
-// Reusable NavLink component with hover line animation
 function NavLink({
   href,
   children,
   isActive,
-  isScrolled,
-  isHomePage,
   onClick,
 }: {
   href: string;
   children: React.ReactNode;
   isActive?: boolean;
-  isScrolled: boolean;
-  isHomePage: boolean;
   onClick?: () => void;
 }) {
   return (
@@ -40,23 +35,14 @@ function NavLink({
     >
       <span
         className={`${
-          isActive
-            ? "text-teal-500"
-            : isScrolled || !isHomePage
-            ? "text-navy-600 group-hover:text-navy-900"
-            : "text-white/80 group-hover:text-white"
+          isActive ? "text-teal-600" : "text-navy-700 group-hover:text-navy-900"
         } transition-colors duration-300`}
       >
         {children}
       </span>
-      {/* Gradient animated underline */}
       <span
-        className={`absolute bottom-0 left-0 h-[2px] transition-all duration-300 ease-out ${
-          isActive
-            ? "w-full bg-gradient-to-r from-teal-500 to-teal-400"
-            : isScrolled || !isHomePage
-            ? "w-0 group-hover:w-full bg-gradient-to-r from-teal-500 to-teal-400"
-            : "w-0 group-hover:w-full bg-white"
+        className={`absolute bottom-0 left-0 h-[2px] transition-all duration-300 ease-out bg-gradient-to-r from-teal-500 to-teal-400 ${
+          isActive ? "w-full" : "w-0 group-hover:w-full"
         }`}
       />
     </Link>
@@ -67,159 +53,120 @@ export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const pathname = usePathname();
-  const isHomePage = pathname === "/";
-  const hasDarkHero = isHomePage || pathname === "/about" || pathname === "/thinking" || pathname === "/how-we-work" || pathname === "/join";
   const { t } = useLanguage();
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50);
+      setIsScrolled(window.scrollY > 20);
     };
-
     handleScroll();
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   return (
-    <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isScrolled
-          ? "bg-white/95 backdrop-blur-md shadow-[0_1px_20px_rgba(26,58,92,0.08)]"
-          : hasDarkHero
-          ? "bg-transparent"
-          : "bg-white border-b border-gray-200/60"
-      }`}
-    >
-      <div className="mx-auto max-w-content-2xl px-6 lg:px-8">
-        {/* Two-row layout on desktop */}
-        <div className="hidden lg:flex lg:flex-col">
-          {/* Top Row - Language Toggle only */}
-          <div className="flex items-center justify-end h-12">
-            <LanguageToggle isScrolled={isScrolled} isHomePage={hasDarkHero} />
+    <header className="fixed top-0 left-0 right-0 z-50">
+      {/* Floating navbar card */}
+      <div className="pt-4" style={{ paddingLeft: "200px", paddingRight: "200px" }}>
+        <div className="mx-auto">
+          {/* Language toggle above navbar, right-aligned */}
+          <div className="flex justify-end pr-2 pb-1">
+            <LanguageToggle isScrolled={true} isHomePage={false} />
           </div>
-
-          {/* Bottom Row - Logo + Page Links */}
-          <div className="flex h-14 items-center justify-between">
+          <div
+            className={`transition-all duration-300 ${
+              isScrolled
+                ? "bg-white shadow-[0_4px_24px_rgba(26,58,92,0.12)] rounded-2xl"
+                : "bg-white/90 backdrop-blur-md shadow-[0_2px_16px_rgba(26,58,92,0.08)] rounded-2xl"
+            }`}
+          >
+          {/* Desktop */}
+          <div className="hidden lg:flex h-16 items-center justify-between px-8">
             <Link href="/">
               <Image
-                src={isScrolled || !hasDarkHero ? "/logos/logo-colored.svg" : "/logos/logo-white.svg"}
+                src="/logos/logo-dark-blue.svg"
                 alt="Augmentum Advisory"
-                width={56}
-                height={56}
-                className="h-14 w-auto transition-all duration-300"
+                width={48}
+                height={48}
+                className="h-9 w-auto"
                 priority
                 unoptimized
               />
             </Link>
 
-            <div className="flex items-center gap-6">
+            <div className="flex items-center gap-8">
               {pageLinks.map((item) => (
                 <NavLink
                   key={item.key}
                   href={item.href}
                   isActive={pathname === item.href}
-                  isScrolled={isScrolled}
-                  isHomePage={hasDarkHero}
                 >
                   {t(item.key)}
                 </NavLink>
               ))}
             </div>
           </div>
-        </div>
 
-        {/* Mobile layout */}
-        <div className="lg:hidden flex h-16 items-center justify-between">
-          <Link href="/">
-            <Image
-              src={isScrolled || !hasDarkHero ? "/logos/logo-colored.svg" : "/logos/logo-white.svg"}
-              alt="Augmentum Advisory"
-              width={48}
-              height={48}
-              className="h-12 w-auto transition-all duration-300"
-              priority
-              unoptimized
-            />
-          </Link>
+          {/* Mobile */}
+          <div className="lg:hidden flex h-16 items-center justify-between px-6">
+            <Link href="/">
+              <Image
+                src="/logos/logo-dark-blue.svg"
+                alt="Augmentum Advisory"
+                width={40}
+                height={40}
+                className="h-10 w-auto"
+                priority
+                unoptimized
+              />
+            </Link>
 
-          <button
-            type="button"
-            className={`p-2 -mr-2 transition-colors duration-300 ${
-              isScrolled || !hasDarkHero ? "text-navy-700" : "text-white"
-            }`}
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            aria-expanded={mobileMenuOpen}
-            aria-label="Toggle navigation menu"
-          >
-            <svg
-              className="h-6 w-6"
-              fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth={1.5}
-              stroke="currentColor"
+            <button
+              type="button"
+              className="p-2 -mr-2 text-navy-700"
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              aria-expanded={mobileMenuOpen}
+              aria-label="Toggle navigation menu"
             >
-              {mobileMenuOpen ? (
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M6 18L18 6M6 6l12 12"
-                />
-              ) : (
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"
-                />
-              )}
-            </svg>
-          </button>
-        </div>
+              <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
+                {mobileMenuOpen ? (
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+                ) : (
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+                )}
+              </svg>
+            </button>
+          </div>
 
-        {/* Mobile menu with slide animation */}
-        <div
-          className={`lg:hidden overflow-hidden transition-all duration-300 ease-out ${
-            mobileMenuOpen ? "max-h-[500px] opacity-100" : "max-h-0 opacity-0"
-          }`}
-        >
+          {/* Mobile menu */}
           <div
-            className={`py-4 ${
-              isScrolled || !hasDarkHero
-                ? "bg-white"
-                : "bg-navy-900/95 backdrop-blur-md"
+            className={`lg:hidden overflow-hidden transition-all duration-300 ease-out ${
+              mobileMenuOpen ? "max-h-[400px] opacity-100" : "max-h-0 opacity-0"
             }`}
           >
-            {/* Page links on mobile */}
-            <div className="flex flex-col space-y-3">
+            <div className="px-6 pb-6 flex flex-col space-y-4 border-t border-gray-100">
               {pageLinks.map((item, index) => (
                 <div
                   key={item.key}
                   className={`transform transition-all duration-300 ${
-                    mobileMenuOpen
-                      ? "translate-x-0 opacity-100"
-                      : "-translate-x-4 opacity-0"
+                    mobileMenuOpen ? "translate-x-0 opacity-100" : "-translate-x-4 opacity-0"
                   }`}
-                  style={{
-                    transitionDelay: mobileMenuOpen ? `${index * 50}ms` : "0ms",
-                  }}
+                  style={{ transitionDelay: mobileMenuOpen ? `${index * 50}ms` : "0ms" }}
                 >
                   <NavLink
                     href={item.href}
                     isActive={pathname === item.href}
-                    isScrolled={isScrolled}
-                    isHomePage={hasDarkHero}
                     onClick={() => setMobileMenuOpen(false)}
                   >
                     {t(item.key)}
                   </NavLink>
                 </div>
               ))}
+              <div className="pt-2 border-t border-gray-100">
+                <LanguageToggle isScrolled={true} isHomePage={false} />
+              </div>
             </div>
-
-            {/* Language toggle on mobile */}
-            <div className="mt-4 pt-4 border-t border-white/10">
-              <LanguageToggle isScrolled={isScrolled} isHomePage={hasDarkHero} />
-            </div>
+          </div>
           </div>
         </div>
       </div>

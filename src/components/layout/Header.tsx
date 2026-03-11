@@ -103,12 +103,13 @@ export default function Header() {
           <div className="flex h-14 items-center justify-between">
             <Link href="/">
               <Image
-                src={isScrolled || !hasDarkHero ? "/logos/Augmentum Logo/Vertical/Colored.png" : "/logos/Augmentum Logo/Vertical/White.png"}
+                src={isScrolled || !hasDarkHero ? "/logos/logo-colored.svg" : "/logos/logo-white.svg"}
                 alt="Augmentum Advisory"
                 width={56}
                 height={56}
                 className="h-14 w-auto transition-all duration-300"
                 priority
+                unoptimized
               />
             </Link>
 
@@ -132,12 +133,13 @@ export default function Header() {
         <div className="lg:hidden flex h-16 items-center justify-between">
           <Link href="/">
             <Image
-              src={isScrolled || !hasDarkHero ? "/logos/Augmentum Logo/Vertical/Colored.png" : "/logos/Augmentum Logo/Vertical/White.png"}
+              src={isScrolled || !hasDarkHero ? "/logos/logo-colored.svg" : "/logos/logo-white.svg"}
               alt="Augmentum Advisory"
               width={48}
               height={48}
               className="h-12 w-auto transition-all duration-300"
               priority
+              unoptimized
             />
           </Link>
 

@@ -68,7 +68,7 @@ export default function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
   const pathname = usePathname();
   const isHomePage = pathname === "/";
-  const hasDarkHero = isHomePage || pathname === "/about" || pathname === "/thinking";
+  const hasDarkHero = isHomePage || pathname === "/about" || pathname === "/thinking" || pathname === "/how-we-work" || pathname === "/join";
   const { t } = useLanguage();
 
   useEffect(() => {
@@ -103,13 +103,11 @@ export default function Header() {
           <div className="flex h-14 items-center justify-between">
             <Link href="/">
               <Image
-                src="/images/logo.png"
+                src={isScrolled || !hasDarkHero ? "/logos/Augmentum Logo/Vertical/Colored.png" : "/logos/Augmentum Logo/Vertical/White.png"}
                 alt="Augmentum Advisory"
                 width={56}
                 height={56}
-                className={`h-14 w-auto transition-all duration-300 ${
-                  isScrolled || !hasDarkHero ? "" : "brightness-0 invert"
-                }`}
+                className="h-14 w-auto transition-all duration-300"
                 priority
               />
             </Link>
@@ -134,13 +132,11 @@ export default function Header() {
         <div className="lg:hidden flex h-16 items-center justify-between">
           <Link href="/">
             <Image
-              src="/images/logo.png"
+              src={isScrolled || !hasDarkHero ? "/logos/Augmentum Logo/Vertical/Colored.png" : "/logos/Augmentum Logo/Vertical/White.png"}
               alt="Augmentum Advisory"
               width={48}
               height={48}
-              className={`h-12 w-auto transition-all duration-300 ${
-                isScrolled || !hasDarkHero ? "" : "brightness-0 invert"
-              }`}
+              className="h-12 w-auto transition-all duration-300"
               priority
             />
           </Link>
